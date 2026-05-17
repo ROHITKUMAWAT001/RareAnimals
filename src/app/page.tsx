@@ -36,6 +36,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -531,7 +532,14 @@ export default function Home() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] p-0 overflow-hidden">
           {selectedAnimal && (
-            <ScrollArea className="max-h-[90vh]">
+            <div>
+              <DialogHeader className="sr-only">
+                <DialogTitle>{selectedAnimal.name}</DialogTitle>
+                <DialogDescription>
+                  {selectedAnimal.scientificName}
+                </DialogDescription>
+              </DialogHeader>
+              <ScrollArea className="max-h-[90vh]">
               <div className="relative">
                 {/* Hero Image */}
                 <div className="relative aspect-[16/9] w-full">
@@ -609,6 +617,7 @@ export default function Home() {
                 </div>
               </div>
             </ScrollArea>
+            </div>
           )}
         </DialogContent>
       </Dialog>
