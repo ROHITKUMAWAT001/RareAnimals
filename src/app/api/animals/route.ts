@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-static";
+
 export interface Animal {
   id: string;
   name: string;
@@ -277,14 +279,6 @@ const animals: Animal[] = [
   },
 ];
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const category = searchParams.get("category");
-
-  let filtered = animals;
-  if (category && category !== "all") {
-    filtered = animals.filter((a) => a.category === category);
-  }
-
-  return NextResponse.json({ animals: filtered, total: filtered.length });
+export async function GET() {
+  return NextResponse.json({ animals, total: animals.length });
 }

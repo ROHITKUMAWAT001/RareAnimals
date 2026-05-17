@@ -97,10 +97,10 @@ export default function Home() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
-  const fetchAnimals = useCallback(async (category: string) => {
+  const fetchAnimals = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/animals?category=${category}`);
+      const res = await fetch(`/api/animals`);
       const data = await res.json();
       setAnimals(data.animals);
     } catch {
@@ -111,14 +111,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    fetchAnimals(activeCategory);
-  }, [activeCategory, fetchAnimals]);
+    fetchAnimals();
+  }, [fetchAnimals]);
 
   const filteredAnimals = animals.filter(
     (a) =>
-      a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      a.scientificName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      a.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (activeCategory === "all" || a.category === activeCategory) &&
+      (a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        a.scientificName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        a.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const toggleFavorite = (id: string) => {
